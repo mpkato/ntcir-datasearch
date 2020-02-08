@@ -11,7 +11,7 @@ jobs:
       - run: invoke submodule
       - restore_cache:
           key: circleci-java-{{ checksum "anserini/pom.xml" }}
-      - run: mvn dependency:go-offline
+      - run: cd anserini && mvn dependency:go-offline
       - save_cache:
           paths:
             - ~/.m2
