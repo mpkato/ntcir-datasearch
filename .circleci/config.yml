@@ -1,11 +1,12 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/anserini
+    working_directory: ~/ntcir-datasearch/anserini
     docker:
       - image: circleci/openjdk:11-jdk-stretch
     steps:
-      - checkout
+      - checkout:
+          path: ~/ntcir-datasearch
       - restore_cache:
           key: circleci-java-{{ checksum "pom.xml" }}
       - run: mvn dependency:go-offline
