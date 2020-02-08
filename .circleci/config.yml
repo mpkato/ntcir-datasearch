@@ -1,20 +1,21 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/ntcir-datasearch/anserini
+    working_directory: ~/ntcir-datasearch
     docker:
       - image: circleci/openjdk:11-jdk-stretch
     steps:
       - checkout:
           path: ~/ntcir-datasearch
-      - run: git submodule update -i
+      - run: pip install -r requirements.txt
+      - run: invoke submodule
       - restore_cache:
-          key: circleci-java-{{ checksum "pom.xml" }}
+          key: circleci-java-{{ checksum "anserini/pom.xml" }}
       - run: mvn dependency:go-offline
       - save_cache:
           paths:
             - ~/.m2
-          key: circleci-java-{{ checksum "pom.xml" }}
-      - run: mvn package
+          key: circleci-java-{{ checksum "anserini/pom.xml" }}
+      - run: invoke build
       - store_test_results: 
-          path: target/surefire-reports
+          path: anserini/target/surefire-reports
