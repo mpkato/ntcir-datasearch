@@ -1,0 +1,3 @@
+[submodule "anserini"]
+	path = anserini
+	url = https://github.com/mpkato/anserini.git
