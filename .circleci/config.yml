@@ -7,6 +7,7 @@ jobs:
     steps:
       - checkout:
           path: ~/ntcir-datasearch
+      - run: git submodule update -i
       - restore_cache:
           key: circleci-java-{{ checksum "pom.xml" }}
       - run: mvn dependency:go-offline
