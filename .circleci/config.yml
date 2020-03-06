@@ -7,7 +7,8 @@ jobs:
     steps:
       - checkout:
           path: ~/ntcir-datasearch
-      - run: pip install -r requirements.txt
-      - run: invoke build
+      - run: source ~/.poetry/env
+      - run: poetry install
+      - run: poetry run python invoke build
       - store_test_results: 
           path: anserini/target/surefire-reports
