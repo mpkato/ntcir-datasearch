@@ -8,8 +8,7 @@ jobs:
       - checkout:
           path: ~/ntcir-datasearch
       - run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-      - run: source ~/.poetry/env
-      - run: poetry install
-      - run: poetry run python invoke build
+      - run: ~/.poetry/bin/poetry install
+      - run: ~/.poetry/bin/poetry run python invoke build
       - store_test_results: 
           path: anserini/target/surefire-reports
