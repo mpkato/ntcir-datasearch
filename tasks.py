@@ -69,7 +69,8 @@ def preprocess(c, language, input_filepath, output_dirpath):
         from baselines.preprocessor_ja import Preprocessor
         preprocessor = Preprocessor(output_dirpath)
     else:
-        pass
+        from baselines.preprocessor_en import Preprocessor
+        preprocessor = Preprocessor(output_dirpath)
 
     preprocessor.run(input_filepath)
 
