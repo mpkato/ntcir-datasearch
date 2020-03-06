@@ -122,4 +122,6 @@ where
 
 Please refer to [Anserini](https://github.com/castorini/anserini) for details on search models.
 
-
+Note that these results are in the TREC format, not the NTCIR format required in the NTCIR-15 Data Search task.
+You can transform a TREC file into an NTCIR file by `ntcirify` command,
+e.g. `poetry run invoke ntcirify trec_file.txt ntcir_file.txt`.

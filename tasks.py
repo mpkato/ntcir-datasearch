@@ -124,3 +124,26 @@ def search(c, language, index_dirpath, topic_filepath, output_dirpath):
             print()
             print("Retrieved datasets by {} and saved them into {}.\n"
                   .format(model_name, output_filepath))
+
+
+@task
+def ntcirify(c, input_filepath, output_filepath, sysdesc="official baseline"):
+    """
+    Reads a TREC format run file and transforms it to a NTCIR format run file.
+
+    TREC: [TOPIC_ID] Q0 [DATASET_ID] [RANK] [SCORE] [RUN_NAME]
+    NTCIR: [TOPIC_ID] 0 [DATASET_ID] [RANK] [SCORE] [RUN_NAME]
+    """
+
+    with open(input_filepath) as fr, open(output_filepath, "w") as fw:
+        fw.write('<SYSDESC>{}</SYSDESC>\n'.format(sysdesc))
+        for line in fr:
+            fields = line.split(" ")
+            if fields[1] == 'Q0':
+                fields[1] = '0'
+            line = ' '.join(fields)
+            fw.write(line)
+
+    print()
+    print("Transformed a TREC file '{}' to an NTCIR file '{}'.\n"
+          .format(input_filepath, output_filepath))
