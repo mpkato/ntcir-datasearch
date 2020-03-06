@@ -25,11 +25,18 @@ def check_language_arg(language):
 
 @task
 def submodule(c):
+    """
+    Obtain anserini as a submodule.
+    """
     c.run("git submodule update -i", pty=True)
 
 
 @task(submodule)
 def build(c, recompile=False):
+    """
+    Compiles Java files of anserini and outputs executable files
+    at `anserini/target/appassembler/bin`.
+    """
     print("Trying to build anserini ...")
     if os.path.exists("anserini/target/anserini-0.6.1-SNAPSHOT.jar")\
             and not recompile:
@@ -47,6 +54,11 @@ def build(c, recompile=False):
 
 @task(build)
 def preprocess(c, language, input_filepath, output_dirpath):
+    """
+    Reads a collection file [input_filepath]
+    assuming that it is written in [language] (`ja` or `en`),
+    and generates multiple JSONL files in [output_dirpath].
+    """
     check_language_arg(language)
 
     print("Start preprocessing {} collection '{}'\n"
@@ -64,6 +76,11 @@ def preprocess(c, language, input_filepath, output_dirpath):
 
 @task(build)
 def index(c, language, input_dirpath, output_dirpath, threads=4):
+    """
+    Reads JSONL files at [input_dirpath]
+    assuming that they are written in [language] (`ja` or `en`),
+    and indexes the JSONL files into [output_dirpath].
+    """
     check_language_arg(language)
 
     cmd = "anserini/target/appassembler/bin/IndexCollection "\
@@ -79,6 +96,11 @@ def index(c, language, input_dirpath, output_dirpath, threads=4):
 
 @task(build)
 def search(c, language, index_dirpath, topic_filepath, output_dirpath):
+    """
+    Retrieves documents from [index_dirpath] of [language] (`ja` or `en`)
+    for queries in [topic_filepath],
+    and outputs the results into [output_dirpath].
+    """
     check_language_arg(language)
 
     if not os.path.exists(output_dirpath):
